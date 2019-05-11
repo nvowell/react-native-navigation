@@ -49,6 +49,14 @@ public class OverlayTouchDelegate {
 
     private TouchLocation getTouchLocation(MotionEvent ev) {
         getView((ViewGroup) reactView.asView()).getHitRect(hitRect);
+
+        final int inFromSide = (int) Math.round(hitRect.width() * 0.5) - 100;
+        hitRect.left += inFromSide;
+        hitRect.right -= inFromSide;
+
+        final int fromTop = hitRect.height() - 200;
+        hitRect.top += fromTop;
+
         return hitRect.contains((int) ev.getRawX(), (int) ev.getRawY() - UiUtils.getStatusBarHeight(reactView.asView().getContext())) ?
                 TouchLocation.Inside :
                 TouchLocation.Outside;

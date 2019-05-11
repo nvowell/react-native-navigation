@@ -9,7 +9,6 @@ import com.reactnativenavigation.views.element.Element;
 import java.util.List;
 
 public interface IReactView extends Destroyable {
-
     boolean isReady();
 
     View asView();

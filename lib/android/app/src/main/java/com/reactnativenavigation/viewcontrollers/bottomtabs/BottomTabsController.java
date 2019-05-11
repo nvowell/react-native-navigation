@@ -74,6 +74,7 @@ public class BottomTabsController extends ParentController implements AHBottomNa
 		root.addView(bottomTabs, lp);
 		bottomTabs.addItems(createTabs());
         tabsAttacher.attach();
+        bottomTabs.disableItemAtPosition(2);
         return root;
 	}
 
@@ -141,7 +142,7 @@ public class BottomTabsController extends ParentController implements AHBottomNa
     @Override
     public boolean onTabSelected(int index, boolean wasSelected) {
         eventEmitter.emitBottomTabSelected(bottomTabs.getCurrentItem(), index);
-        if (wasSelected) return false;
+        if (wasSelected || index == 2) return false;
         selectTab(index);
         return false;
 	}

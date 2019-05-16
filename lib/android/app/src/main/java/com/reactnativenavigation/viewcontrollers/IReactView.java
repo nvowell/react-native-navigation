@@ -13,6 +13,8 @@ public interface IReactView extends Destroyable {
 
     View asView();
 
+    String getComponentId();
+
     void sendComponentStart();
 
     void sendComponentStop();

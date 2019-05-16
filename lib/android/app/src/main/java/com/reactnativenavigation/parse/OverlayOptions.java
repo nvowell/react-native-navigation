@@ -8,12 +8,14 @@ import org.json.JSONObject;
 
 public class OverlayOptions {
     public Bool interceptTouchOutside = new NullBool();
+    public Bool touchActive = new NullBool();
 
     public static OverlayOptions parse(JSONObject json) {
         OverlayOptions options = new OverlayOptions();
         if (json == null) return options;
 
-        options.interceptTouchOutside = BoolParser.parse(json,"interceptTouchOutside");
+        options.interceptTouchOutside = BoolParser.parse(json, "interceptTouchOutside");
+        options.touchActive = BoolParser.parse(json, "touchActive");
         return options;
     }
 }

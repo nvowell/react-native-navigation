@@ -16,9 +16,14 @@ public class OverlayTouchDelegate {
     private final Rect hitRect = new Rect();
     private IReactView reactView;
     private Bool interceptTouchOutside = new NullBool();
+    private Bool touchActive = new NullBool();
 
     public void setInterceptTouchOutside(Bool interceptTouchOutside) {
         this.interceptTouchOutside = interceptTouchOutside;
+    }
+
+    public void setTouchActive(Bool touchActive) {
+        this.touchActive = touchActive;
     }
 
     public OverlayTouchDelegate(IReactView reactView) {
@@ -33,7 +38,6 @@ public class OverlayTouchDelegate {
             default:
                 reactView.dispatchTouchEventToJs(event);
                 return false;
-
         }
     }
 
@@ -48,14 +52,26 @@ public class OverlayTouchDelegate {
     }
 
     private TouchLocation getTouchLocation(MotionEvent ev) {
+        if (touchActive.isFalseOrUndefined()) {
+            return TouchLocation.Outside;
+        }
+
         getView((ViewGroup) reactView.asView()).getHitRect(hitRect);
 
-        final int inFromSide = (int) Math.round(hitRect.width() * 0.5) - 100;
-        hitRect.left += inFromSide;
-        hitRect.right -= inFromSide;
+        final String componentId = reactView.getComponentId();
 
-        final int fromTop = hitRect.height() - 200;
-        hitRect.top += fromTop;
+        if (componentId.equals("MESSAGE_OVERLAY")) {
+            final int fromTop = hitRect.height() - 300;
+            hitRect.top += fromTop;
+            hitRect.bottom -= 200;
+        } else if (componentId.equals("COMPOSE_BUTTON_OVERLAY")) {
+            final int inFromSide = (int) Math.round(hitRect.width() * 0.5) - 100;
+            hitRect.left += inFromSide;
+            hitRect.right -= inFromSide;
+
+            final int fromTop = hitRect.height() - 200;
+            hitRect.top += fromTop;
+        }
 
         return hitRect.contains((int) ev.getRawX(), (int) ev.getRawY() - UiUtils.getStatusBarHeight(reactView.asView().getContext())) ?
                 TouchLocation.Inside :

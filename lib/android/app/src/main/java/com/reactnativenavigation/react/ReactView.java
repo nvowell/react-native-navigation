@@ -59,6 +59,9 @@ public class ReactView extends ReactRootView implements IReactView, Renderable {
 		return this;
 	}
 
+  @Override
+  public String getComponentId() { return this.componentId; }
+
 	@Override
 	public void destroy() {
 		unmountReactApplication();

@@ -20,6 +20,7 @@ public class ComponentPresenter {
 
     public void mergeOptions(ComponentLayout view, Options options) {
         if (options.overlayOptions.interceptTouchOutside.hasValue()) view.setInterceptTouchOutside(options.overlayOptions.interceptTouchOutside);
+        if (options.overlayOptions.touchActive.hasValue()) view.setTouchActive(options.overlayOptions.touchActive);
         mergeBackgroundColor(view, options);
     }
 

@@ -36,6 +36,11 @@ public class ComponentLayout extends FrameLayout implements ReactComponent, Titl
     }
 
     @Override
+    public String getComponentId() {
+        return reactView.getComponentId();
+    }
+
+    @Override
     public boolean isReady() {
         return reactView.isReady();
     }
@@ -66,6 +71,10 @@ public class ComponentLayout extends FrameLayout implements ReactComponent, Titl
 
     public void setInterceptTouchOutside(Bool interceptTouchOutside) {
         touchDelegate.setInterceptTouchOutside(interceptTouchOutside);
+    }
+
+    public void setTouchActive(Bool touchActive) {
+        touchDelegate.setTouchActive(touchActive);
     }
 
     @Override

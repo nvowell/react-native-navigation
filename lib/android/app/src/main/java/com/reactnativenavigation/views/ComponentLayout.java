@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import com.reactnativenavigation.interfaces.ScrollEventListener;
 import com.reactnativenavigation.parse.Options;
 import com.reactnativenavigation.parse.params.Bool;
+import com.reactnativenavigation.parse.params.Number;
 import com.reactnativenavigation.utils.ViewUtils;
 import com.reactnativenavigation.viewcontrollers.IReactView;
 import com.reactnativenavigation.viewcontrollers.TitleBarButtonController;
@@ -75,6 +76,10 @@ public class ComponentLayout extends FrameLayout implements ReactComponent, Titl
 
     public void setTouchActive(Bool touchActive) {
         touchDelegate.setTouchActive(touchActive);
+    }
+
+    public void setHitRect(Number left, Number top, Number right, Number bottom) {
+        touchDelegate.setHitRect(left, top, right, bottom);
     }
 
     @Override

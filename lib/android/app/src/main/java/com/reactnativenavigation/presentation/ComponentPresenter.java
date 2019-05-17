@@ -21,6 +21,16 @@ public class ComponentPresenter {
     public void mergeOptions(ComponentLayout view, Options options) {
         if (options.overlayOptions.interceptTouchOutside.hasValue()) view.setInterceptTouchOutside(options.overlayOptions.interceptTouchOutside);
         if (options.overlayOptions.touchActive.hasValue()) view.setTouchActive(options.overlayOptions.touchActive);
+        if (options.overlayOptions.left.hasValue() &&
+            options.overlayOptions.top.hasValue() &&
+            options.overlayOptions.right.hasValue() &&
+            options.overlayOptions.bottom.hasValue()) {
+                view.setHitRect(
+                    options.overlayOptions.left,
+                    options.overlayOptions.top,
+                    options.overlayOptions.right,
+                    options.overlayOptions.bottom);
+        }
         mergeBackgroundColor(view, options);
     }
 

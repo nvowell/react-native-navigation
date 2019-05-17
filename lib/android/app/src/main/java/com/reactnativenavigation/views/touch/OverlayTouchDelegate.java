@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.reactnativenavigation.parse.params.Bool;
 import com.reactnativenavigation.parse.params.NullBool;
+import com.reactnativenavigation.parse.params.Number;
+import com.reactnativenavigation.parse.params.NullNumber;
 import com.reactnativenavigation.utils.UiUtils;
 import com.reactnativenavigation.viewcontrollers.IReactView;
 
@@ -18,12 +20,24 @@ public class OverlayTouchDelegate {
     private Bool interceptTouchOutside = new NullBool();
     private Bool touchActive = new NullBool();
 
+    private Number left = new NullNumber();
+    private Number top = new NullNumber();
+    private Number right = new NullNumber();
+    private Number bottom = new NullNumber();
+
     public void setInterceptTouchOutside(Bool interceptTouchOutside) {
         this.interceptTouchOutside = interceptTouchOutside;
     }
 
     public void setTouchActive(Bool touchActive) {
         this.touchActive = touchActive;
+    }
+
+    public void setHitRect(Number left, Number top, Number right, Number bottom) {
+        this.left = left;
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
     }
 
     public OverlayTouchDelegate(IReactView reactView) {
@@ -58,22 +72,14 @@ public class OverlayTouchDelegate {
 
         getView((ViewGroup) reactView.asView()).getHitRect(hitRect);
 
-        final String componentId = reactView.getComponentId();
-
-        if (componentId.equals("MESSAGE_OVERLAY")) {
-            final int fromTop = hitRect.height() - 300;
-            hitRect.top += fromTop;
-            hitRect.bottom -= 200;
-        } else if (componentId.equals("COMPOSE_BUTTON_OVERLAY")) {
-            final int inFromSide = (int) Math.round(hitRect.width() * 0.5) - 100;
-            hitRect.left += inFromSide;
-            hitRect.right -= inFromSide;
-
-            final int fromTop = hitRect.height() - 200;
-            hitRect.top += fromTop;
+        if (left.hasValue() && top.hasValue() && right.hasValue() && bottom.hasValue()) {
+            hitRect.left = left.get();
+            hitRect.top = top.get();
+            hitRect.right = right.get();
+            hitRect.bottom = bottom.get();
         }
 
-        return hitRect.contains((int) ev.getRawX(), (int) ev.getRawY() - UiUtils.getStatusBarHeight(reactView.asView().getContext())) ?
+        return hitRect.contains((int) ev.getRawX(), (int) ev.getRawY()) ?
                 TouchLocation.Inside :
                 TouchLocation.Outside;
     }
